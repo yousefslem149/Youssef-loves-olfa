@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>ألفة &amp; يوسف 💗</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff3d7f; --pink2:#f0306f; --gold:#e3b53f;
+  --card:rgba(255,255,255,.04); --line:rgba(255,255,255,.08);
+  --muted:#8b8794;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;color:#fff;font-family:'Cairo','Segoe UI',Tahoma,sans-serif;overflow:hidden}
+body{background:radial-gradient(ellipse at 50% 0%,#2a0716 0%,#0a0206 45%,#000 80%)}
+button{font-family:inherit;cursor:pointer;border:0;color:inherit}
+
+/* falling hearts */
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+#fx span{position:absolute;top:-30px;animation:fall linear forwards;text-shadow:0 0 8px currentColor}
+@keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
+
+.view{position:fixed;inset:0;overflow-y:auto;overflow-x:hidden;display:none;opacity:0;transition:opacity .5s}
+.view.on{display:block}
+.view.show{opacity:1}
+.wrap{max-width:460px;margin:0 auto;padding:0 18px}
+
+/* close button */
+.x{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:14px;width:46px;height:46px;border-radius:50%;
+  background:#0d1530;border:1px solid rgba(120,140,255,.25);display:none;align-items:center;justify-content:center;z-index:60}
+.x.on{display:flex}
+.x svg{width:20px;height:20px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round}
+
+/* login */
+#login{display:none;align-items:center;justify-content:center}
+#login.on{display:flex}
+.lcard{width:calc(100% - 44px);max-width:400px;padding:44px 26px 34px;border-radius:44px;
+  border:1px solid rgba(255,255,255,.08);background:linear-gradient(180deg,rgba(255,40,100,.05),rgba(255,255,255,.015));
+  text-align:center;box-shadow:0 0 80px rgba(255,40,100,.08)}
+.names{font-size:34px;font-weight:800;line-height:1.3}
+.tag{margin-top:10px;font-size:12px;letter-spacing:2.5px;color:#9a8a96;direction:ltr}
+.tag b{color:var(--gold);font-weight:400}
+#pw{width:100%;margin-top:30px;padding:17px 14px;border-radius:20px;border:1px solid var(--line);
+  background:rgba(255,255,255,.07);color:#fff;font:600 15px 'Cairo',sans-serif;text-align:center;outline:none}
+#pw::placeholder{color:rgba(255,255,255,.35);font-weight:400}
+#pw:focus{border-color:rgba(255,61,127,.55);box-shadow:0 0 0 3px rgba(255,61,127,.12)}
+#err{min-height:22px;margin-top:10px;font-size:13px;color:#ff7aa5}
+#go{width:100%;margin-top:8px;padding:16px;border-radius:18px;background:linear-gradient(135deg,#ff4f8b,#f0306f);
+  font-size:17px;font-weight:700;box-shadow:0 8px 28px rgba(255,61,127,.35)}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+
+/* story */
+.hero{text-align:center;padding-top:calc(86px + env(safe-area-inset-top,0px))}
+.hero h1{font-size:25px;font-weight:700;color:#ffc2d6}
+.hero p{margin-top:8px;font-size:14px;color:#cfcad3}
+.since{text-align:center;margin:34px 0 18px;font-size:13px;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cell{padding:20px 4px 14px;border-radius:24px;background:var(--card);border:1px solid var(--line);text-align:center}
+.cell b{display:block;font-size:28px;font-weight:800;color:var(--pink)}
+.cell small{display:block;margin-top:4px;font-size:11px;color:var(--muted)}
+
+.player{margin-top:26px;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:30px;background:var(--card);border:1px solid var(--line)}
+#pp{flex:none;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ff4f8b,#f0306f);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(255,61,127,.4)}
+#pp svg{width:20px;height:20px;fill:#fff}
+.pinfo b{display:block;font-size:15px}
+.pinfo small{font-size:11px;color:var(--muted)}
+
+.list{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);font-size:14px;font-weight:600}
+.item svg{width:20px;height:20px;stroke:var(--gold);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+.rail{margin:22px -18px 0;padding:0 18px 6px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.tile{flex:none;scroll-snap-align:center;width:128px;height:120px;border-radius:30px;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:700;font-size:14px;line-height:1.6}
+.tile.dark{background:var(--card);border:1px solid var(--line)}
+.tile.dark svg{width:30px;height:30px;fill:var(--gold)}
+.tile.pink{width:150px;padding:14px;background:linear-gradient(145deg,#ff4f8b,#f0306f);box-shadow:0 8px 24px rgba(255,61,127,.3)}
+
+
+.flip{flex:none;scroll-snap-align:center;width:150px;height:120px;perspective:800px;background:none}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;border-radius:30px;display:flex;align-items:center;justify-content:center;text-align:center;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.front{background:var(--card);border:1px solid var(--line)}
+.face.front svg{width:30px;height:30px;fill:var(--gold)}
+.face.back{transform:rotateY(180deg);padding:14px;font-weight:700;font-size:15px;line-height:1.7;
+  background:linear-gradient(145deg,#ff4f8b,#f0306f);box-shadow:0 8px 24px rgba(255,61,127,.3)}
+
+.gallery{margin-top:24px;display:flex;flex-direction:column;gap:22px}
+.shot{border-radius:26px;overflow:hidden;background:#0b0508;border:1px solid rgba(255,61,127,.22);box-shadow:0 0 28px rgba(255,61,127,.12)}
+.shot img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%}
+.shot p{padding:13px 10px;text-align:center;font-size:14px;font-weight:700;background:#0b0508}
+
+.last{display:block;margin:34px auto 60px;padding:13px 26px;border-radius:30px;background:rgba(227,181,63,.06);border:1px solid rgba(227,181,63,.45);color:var(--gold);font-size:14px;font-weight:600}
+
+/* final message */
+#final{background:radial-gradient(ellipse at 50% 30%,#3a0a1f 0%,#12030a 55%,#000 100%);display:none;align-items:center;justify-content:center}
+#final.on{display:flex}
+.msg{width:calc(100% - 44px);max-width:400px;margin:70px 0 30px;padding:40px 26px 32px;border-radius:48px;border:1px solid rgba(227,181,63,.55);
+  text-align:center;background:linear-gradient(180deg,rgba(255,40,100,.07),rgba(0,0,0,.2));box-shadow:0 0 60px rgba(255,40,100,.1) inset}
+.bigheart{font-size:44px;color:var(--pink);filter:drop-shadow(0 0 14px rgba(255,61,127,.9));animation:beat 1.4s infinite}
+@keyframes beat{50%{transform:scale(1.12)}}
+.msg h2{margin-top:22px;font-size:25px;font-weight:700}
+.msg .txt{margin-top:22px;font-size:15px;line-height:2.1;font-style:italic;color:#eee}
+.msg .sign{margin-top:22px;font-size:17px;font-weight:700;color:var(--gold)}
+.msg .back{display:inline-block;margin-top:26px;font-size:12px;color:var(--pink);text-decoration:underline;background:none}
+</style>
+</head>
+<body>
+<div id="fx"></div>
+
+<button class="x" id="x" aria-label="إغلاق"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+
+<!-- 1) login -->
+<section class="view on show" id="login">
+  <div class="lcard" id="lcard">
+    <div class="names">ألفة &amp; يوسف</div>
+    <div class="tag"><b>✨</b> OUR ETERNAL LOVE STORY</div>
+    <input id="pw" type="text" inputmode="text" autocomplete="off" placeholder="انتي لسه هتفكري تاريخ اكتمال القمر 🌚😂">
+    <div id="err"></div>
+    <button id="go">دوسي هنا 😍</button>
+  </div>
+</section>
+
+<!-- 2) story -->
+<section class="view" id="story">
+  <div class="wrap">
+    <div class="hero">
+      <h1>حكايتنا 🩷</h1>
+      <p>كل لحظة معاكي هي عمر جديد</p>
+    </div>
+    <div class="since">منذ أن بدأت القصة</div>
+    <div class="grid">
+      <div class="cell"><b id="cy">0</b><small>سنة</small></div>
+      <div class="cell"><b id="cm">0</b><small>شهر</small></div>
+      <div class="cell"><b id="cd">0</b><small>يوم</small></div>
+      <div class="cell"><b id="ch">0</b><small>ساعة</small></div>
+      <div class="cell"><b id="cmi">0</b><small>دقيقة</small></div>
+      <div class="cell"><b id="cs">0</b><small>ثانية</small></div>
+    </div>
+
+    <div class="player">
+      <button id="pp" aria-label="تشغيل / إيقاف"><svg id="ico" viewBox="0 0 24 24"></svg></button>
+      <div class="pinfo"><b>نور عيني</b><small>🎵 الأغنية اللي بتوصفنا</small></div>
+    </div>
+
+    <div class="list">
+      <div class="item"><svg viewBox="0 0 24 24"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>هفضل سندك في كل وقت</div>
+      <div class="item"><svg viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>هكون دايماً أمانك وضحكتك</div>
+      <div class="item"><svg viewBox="0 0 24 24"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></svg>حبنا مالوش نهاية.. وعد</div>
+    </div>
+
+    <div class="rail">
+      <button class="flip"><div class="in">
+        <div class="face front"><svg viewBox="0 0 24 24"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.5l-10 6.2L2 6.5z"/><path d="M2 8.9l9.4 5.8a1.2 1.2 0 0 0 1.2 0L22 8.9V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/></svg></div>
+        <div class="face back">إنتي أجمل نعمة في حياتي 💗</div></div></button>
+      <button class="flip"><div class="in">
+        <div class="face front"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+        <div class="face back">وجودك بيخلي الدنيا منورة ✨</div></div></button>
+      <button class="flip"><div class="in">
+        <div class="face front"><svg viewBox="0 0 24 24"><path d="M3 7l4.5 4L12 4l4.5 7L21 7l-2 12H5z"/></svg></div>
+        <div class="face back">ملكة قلبي للأبد 👑</div></div></button>
+    </div>
+
+    <div class="gallery">
+      <figure class="shot"><img src="photo1.jpg" alt=""><p>أحلى صدفة في عمري 💗</p></figure>
+      <figure class="shot"><img src="photo2.jpg" alt=""><p>ضحكتك هي حياتي ✨</p></figure>
+      <figure class="shot"><img src="photo3.jpg" alt=""><p>بعشق جنانك 🥹😂</p></figure>
+      <figure class="shot"><img src="photo4.jpg" alt=""><p>بموت فيكي يا ألوفتي 💍</p></figure>
+    </div>
+
+    <button class="last" id="last">في حاجة أخيرة ليكي.. 🎁</button>
+  </div>
+</section>
+
+<!-- 3) final message -->
+<section class="view" id="final">
+  <div class="msg">
+    <div class="bigheart">♥</div>
+    <h2>ملكة قلبي.. 💗</h2>
+    <p class="txt">حبيبتي "ألوفتي".. عايز أقولك إن كل كلمة كتبتها هنا وكل صورة حطيتها هي جزء صغير من اللي حاسه بيكي. إنتي مش بس حبيبتي، إنتي بنتي وصحبتي وأماني. هفضل دايماً جنبك، وهيفضل حبنا بيكبر كل يوم عن اللي قبله. ربنا يخليكي ليا يا أغلى من عمري.</p>
+    <div class="sign">بحبك يا ألوفتي.. للأبد 💗</div>
+    <button class="back" id="back">العودة للبداية</button>
+  </div>
+</section>
+
+<audio id="song" src="song.mp3" loop preload="auto"></audio>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const PASSWORD="22/11";                       // تاريخ اكتمال القمر
+  const START=new Date(2026,6,19,0,0,0);        // 19 يوليو 2026
+
+  /* ---------- views ---------- */
+  function open(id){
+    document.querySelectorAll('.view').forEach(v=>{v.classList.remove('show');v.classList.remove('on')});
+    const v=$(id); v.classList.add('on'); v.scrollTop=0;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>v.classList.add('show')));
+    $('x').classList.toggle('on',id!=='login');
+    current=id;
+  }
+  let current='login';
+
+  /* ---------- password ---------- */
+  function norm(s){
+    return s.replace(/[\u0660-\u0669]/g,d=>d.charCodeAt(0)-0x660)
+            .replace(/[\u06F0-\u06F9]/g,d=>d.charCodeAt(0)-0x6F0)
+            .replace(/[\s\-.\\،,]+/g,'/').replace(/^\/|\/$/g,'');
+  }
+  function check(){
+    const v=norm($('pw').value);
+    if(v===PASSWORD||v==='2211'){
+      $('err').textContent='';
+      music.play().then(sync,sync);
+      open('story');
+    }else{
+      $('err').textContent='لأ مش التاريخ ده 🌚';
+      const c=$('lcard'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+    }
+  }
+  $('go').onclick=check;
+  $('pw').addEventListener('keydown',e=>{if(e.key==='Enter')check()});
+
+  /* ---------- navigation ---------- */
+  $('x').onclick=()=>{
+    if(current==='final') open('story');
+    else {music.pause();sync();$('pw').value='';open('login');}
+  };
+  $('last').onclick=()=>open('final');
+  document.querySelectorAll('.flip').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+  $('back').onclick=()=>open('story');
+
+  /* ---------- music ---------- */
+  const PLAY='<path d="M8 5v14l11-7z"/>', PAUSE='<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+  const music=(function(){
+    if(window.SONG_B64){            // نسخة المعاينة: Web Audio (بتشتغل حتى لو الـ audio متحجوب)
+      let ctx,buf,src,on=false;
+      async function load(){
+        if(buf) return;
+        const bin=atob(window.SONG_B64), u=new Uint8Array(bin.length);
+        for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
+        buf=await ctx.decodeAudioData(u.buffer);
+      }
+      return {
+        paused:()=>!on,
+        play:async()=>{
+          if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+          if(ctx.state==='suspended') ctx.resume();
+          await load();
+          if(on) return;
+          src=ctx.createBufferSource(); src.buffer=buf; src.loop=true; src.connect(ctx.destination); src.start(0); on=true;
+        },
+        pause:()=>{ if(src){try{src.stop()}catch(e){}} on=false; }
+      };
+    }
+    const a=$('song');
+    return {
+      paused:()=>a.paused,
+      play:()=>{ const p=a.play(); return p&&p.then?p:Promise.resolve(); },
+      pause:()=>a.pause()
+    };
+  })();
+  function sync(){ $('ico').innerHTML=music.paused()?PLAY:PAUSE; }
+  $('pp').onclick=()=>{ if(music.paused()) music.play().then(sync,sync); else {music.pause();sync();} };
+  sync();
+
+  /* ---------- counter ---------- */
+  function tick(){
+    const n=new Date();
+    let y=n.getFullYear()-START.getFullYear(), m=n.getMonth()-START.getMonth(), d=n.getDate()-START.getDate(),
+        h=n.getHours()-START.getHours(), mi=n.getMinutes()-START.getMinutes(), s=n.getSeconds()-START.getSeconds();
+    if(n<START){y=m=d=h=mi=s=0}
+    if(s<0){s+=60;mi--} if(mi<0){mi+=60;h--} if(h<0){h+=24;d--}
+    if(d<0){d+=new Date(n.getFullYear(),n.getMonth(),0).getDate();m--}
+    if(m<0){m+=12;y--}
+    $('cy').textContent=y;$('cm').textContent=m;$('cd').textContent=d;
+    $('ch').textContent=h;$('cmi').textContent=mi;$('cs').textContent=s;
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---------- falling hearts ---------- */
+  const fx=$('fx');
+  function spawn(){
+    const s=document.createElement('span'), star=Math.random()<.3, dur=6+Math.random()*7;
+    s.textContent=star?'★':'♥';
+    s.style.left=Math.random()*100+'vw';
+    s.style.fontSize=(10+Math.random()*16)+'px';
+    s.style.color=star?'#ff5c93':'#ff2d6f';
+    s.style.opacity=(.25+Math.random()*.5).toFixed(2);
+    s.style.filter='blur('+(Math.random()*1.5).toFixed(1)+'px)';
+    s.style.animationDuration=dur+'s';
+    fx.appendChild(s); setTimeout(()=>s.remove(),dur*1000);
+  }
+  setInterval(spawn,420);
+})();
+</script>
+</body>
+</html>
